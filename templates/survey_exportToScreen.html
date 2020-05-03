@@ -1,0 +1,34 @@
+<{foreach item=form from=$forms}>
+    <table>
+        <tr class="head">
+            <{foreach item=question from=$form.questions}>
+                <{if is_array($question.caption)}>
+                    <{foreach item=thiscaption from=$question.caption}>
+                        <td><{$thiscaption}></td>
+                    <{/foreach}>
+                <{else}>
+                    <td><{$question.caption}></td>
+                <{/if}>
+            <{/foreach}>
+        </tr>
+        <{foreach item=reply from=$form.replies}>
+            <{assign var="replyid" value=$reply.id}>
+            <tr class="<{cycle values='odd, even'}>">
+                <td><{$reply.id}></td>
+                <td><{$reply.email}></td>
+                <td><{$reply.date}></td>
+                <{foreach item=question from=$form.questions}>
+                    <{if $question.qid > 0}>
+                        <{if is_array($question.answers.$replyid)}>
+                            <{foreach item=thisanswer from=$question.answers.$replyid}>
+                                <td><{$thisanswer}></td>
+                            <{/foreach}>
+                        <{else}>
+                            <td><{$question.answers.$replyid}></td>
+                        <{/if}>
+                    <{/if}>
+                <{/foreach}>
+            </tr>
+        <{/foreach}>
+    </table>
+<{/foreach}>

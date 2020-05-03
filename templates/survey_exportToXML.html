@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>" ?>
+<Workbook xmlns="urn:<{$xoops_url}>">
+    <{foreach item=form from=$forms}>
+        <Survey>
+            <CaptionGroup>
+            <{foreach item=question from=$form.questions}>
+                    <{if is_array($question.caption)}>
+                        <{foreach item=thiscaption from=$question.caption}>
+                            <Caption><{$thiscaption}></Caption>
+                        <{/foreach}>
+                    <{else}>
+                        <Caption><{$question.caption}></Caption>
+                    <{/if}>
+                <{/foreach}>
+            </CaptionGroup>
+            <{foreach item=reply from=$form.replies}>
+                <{assign var="replyid" value=$reply.id}>
+                <Reply>
+                    <Answer><{$reply.id}></Answer>
+                    <Answer><{$reply.email}></Answer>
+                    <Answer><{$reply.date}></Answer>
+                    <{foreach item=question from=$form.questions}>
+                        <{if $question.qid > 0}>
+                            <{if is_array($question.answers.$replyid)}>
+                                <{foreach item=thisanswer from=$question.answers.$replyid}>
+                                    <Answer><{$thisanswer}></Answer>
+                                <{/foreach}>
+                            <{else}>
+                                <Answer><{$question.answers.$replyid}></Answer>
+                            <{/if}>
+                        <{/if}>
+                    <{/foreach}>
+                </Reply>
+            <{/foreach}>
+        </Survey>
+    <{/foreach}>
+</Workbook>
