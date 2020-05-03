@@ -1,0 +1,91 @@
+<div>
+    <{$search_form.javascript}>
+    <form name="<{$search_form.name}>" action="<{$search_form.action}>" method="<{$search_form.method}>" <{$search_form.extra}> >
+        <div><h3><{$search_form.title}></h3></div>
+        <div style="padding: 10px;">
+        <{foreach item=element from=$search_form.elements}>
+            <{if $element.hidden != true}>
+                <{$element.caption}>&nbsp;
+  		        <{$element.body}>
+    		<{else}>
+    		    <{$element.body}>
+    		<{/if}>
+    	<{/foreach}>
+    </form>
+</div>
+
+<{$formnav}>
+<table>
+    <tr>
+        <th colspan="2">
+        </th>
+        <th>
+            <{$smarty.const._AM_SV_FORM_NAME}>
+        </th>
+        <th>
+            <{$smarty.const._AM_SV_FORM_DESC}>
+        </th>
+        <th>
+            <{$smarty.const._AM_SV_FORM_STARTDATE}>
+        </th>
+        <th>
+            <{$smarty.const._AM_SV_FORM_EXPIREDATE}>
+        </th>
+        <th colspan="5">
+            <{$smarty.const._AM_SV_FORM_COUNT}>
+        </th>
+    </tr>
+    <{foreach item=form from=$forms}>
+        <tr class="<{cycle values='odd, even'}>">
+            <td>
+                <{$form.formid}>
+            </td>
+            <td>
+                <{if $form.isactive}>
+                    <img src="<{$xoops_url}>/modules/survey/images/on.gif" alt="<{$smarty.const._AM_SV_ACTIVE}>" title="<{$smarty.const._AM_SV_ACTIVE}>" />
+                <{else}>
+                    <img src="<{$xoops_url}>/modules/survey/images/off.gif" alt="<{$smarty.const._AM_SV_INACTIVE}>" title="<{$smarty.const._AM_SV_INACTIVE}>" />
+                <{/if}>
+            </td>
+            <td>
+                <a href="<{$xoops_url}>/modules/survey/admin/form.php?op=editform&formid=<{$form.formid}>">
+                    <{$form.name}>
+                </a>
+            </td>
+            <td>
+                <{$form.description}>
+            </td>
+            <td>
+                <{$form.start}>
+            </td>
+            <td>
+                <{$form.expire}>
+            </td>
+            <td>
+                <{if $form.reply_count > 0}>
+                    <{$form.reply_count}>
+                <{else}>
+                    0
+                <{/if}>
+            </td>
+            <td>
+                <a href="elements.php?formid=<{$form.formid}>"><img height="30px" width="40px" src="<{$xoops_url}>/modules/survey/images/wideshot.png" alt="<{$smarty.const._AM_SV_EDIT_ELEMENTS}>" title="<{$smarty.const._AM_SV_EDIT_ELEMENTS}>" /></a>
+            </td>
+            <td>
+                <form action="form.php" method="POST">
+                    <input type="hidden" name="op" value="cloneform" />
+                    <input type="hidden" name="formid" value="<{$form.formid}>" />
+                    <input type="submit" name="submit" value="<{$smarty.const._AM_SV_CLONE}>" />
+                </form>
+            </td>
+            <td>
+                <form action="form.php" method="POST">
+                    <input type="hidden" name="op" value="delform" />
+                    <input type="hidden" name="formid" value="<{$form.formid}>" />
+                    <input type="submit" name="submit" value="<{$smarty.const._AM_SV_DELETE}>" />
+                </form>
+            </td>
+        </tr>
+    <{/foreach}>
+</table>
+<{$formnav}>

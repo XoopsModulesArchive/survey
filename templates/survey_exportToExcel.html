@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>" ?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <{foreach item=form from=$forms}>
+    <Worksheet ss:Name="<{$form.name}>">
+        <Table>
+            <Row>
+                <{foreach item=question from=$form.questions}>
+                    <{if is_array($question.caption)}>
+                        <{foreach item=thiscaption from=$question.caption}>
+                            <Cell><Data ss:Type="String"><{$thiscaption}></Data></Cell>
+                        <{/foreach}>
+                    <{else}>
+                        <Cell><Data ss:Type="String"><{$question.caption}></Data></Cell>
+                    <{/if}>
+                <{/foreach}>
+            </Row>
+            <{foreach item=reply from=$form.replies}>
+                <{assign var="replyid" value=$reply.id}>
+                <Row>
+                    <Cell><Data ss:Type="Number"><{$reply.id}></Data></Cell>
+                    <Cell><Data ss:Type="String"><{$reply.email}></Data></Cell>
+                    <Cell><Data ss:Type="String"><{$reply.date}></Data></Cell>
+                    <{foreach item=question from=$form.questions}>
+                        <{if $question.qid > 0}>
+                            <{if is_array($question.answers.$replyid)}>
+                                <{foreach item=thisanswer from=$question.answers.$replyid}>
+                                    <Cell><Data ss:Type="String"><{$thisanswer}></Data></Cell>
+                                <{/foreach}>
+                            <{else}>
+                                <Cell><Data ss:Type="String"><{$question.answers.$replyid}></Data></Cell>
+                            <{/if}>
+                        <{/if}>
+                    <{/foreach}>
+                </Row>
+            <{/foreach}>
+        </Table>
+ </Worksheet>
+ <{/foreach}>
+</Workbook>

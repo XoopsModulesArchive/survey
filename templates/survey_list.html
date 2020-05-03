@@ -1,0 +1,6 @@
+<{foreach item=form from=$forms}>
+    <div>
+        <div class="head"><a href="form.php?id=<{$form->formid}>"><{$form->f_name}></a></div>
+        <div class="odd"><{$form->f_desc}></div>
+    </div>
+<{/foreach}>
